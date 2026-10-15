@@ -1,0 +1,127 @@
+/* 全局基础样式 */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    max-width: 50rem;
+    margin: 0 auto;
+    padding: 1rem;
+    line-height: 1.6;
+    color: #222;
+    background: #faf7f2;
+}
+
+/* 导航样式 - 横向排列 */
+nav ul {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+    padding: 1rem 0;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 2rem;
+}
+
+nav a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+}
+
+nav a:hover {
+    color: #c2410c;
+}
+
+/* active导航蓝色高亮 */
+nav a.active {
+    color: blue;
+    font-weight: bold;
+}
+
+/* 标题间距 */
+h1 {
+    margin: 1.5rem 0;
+}
+
+h2 {
+    margin: 1.5rem 0 1rem;
+}
+
+/* 图片样式 */
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 1rem 0;
+}
+
+/* quotes hero 随机名言横幅 */
+.hero {
+    padding: 3rem 1rem;
+    text-align: center;
+    border-left: 3px solid #c2410c;
+    background: #fff;
+    margin-bottom: 2rem;
+    border-radius: 0 8px 8px 0;
+}
+.hero q {
+    font-size: 1.4rem;
+    font-style: italic;
+}
+.hero cite {
+    display: block;
+    margin-top: 1rem;
+    color: #555;
+}
+
+/* quote卡片样式 */
+.quote {
+    max-width: 34rem;
+    padding: 1.5rem;
+    border-left: 3px solid #c2410c;
+    background: #fff;
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 1.5rem;
+}
+.quote footer {
+    margin-top: 1rem;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* machine游戏盒子 */
+.game-box {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    border:1px solid #ddd;
+    border-radius: 8px;
+    background: #fff;
+}
+.game-box input {
+    padding:0.4rem;
+    width:150px;
+    margin-right:0.5rem;
+}
+.game-box button {
+    padding:0.4rem 0.8rem;
+    cursor:pointer;
+    background: #c2410c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+}
+.game-box button:hover {
+    background: #9a3412;
+}
+
+/* 页脚 */
+footer {
+    margin-top: 3rem;
+    padding-top: 1rem;
+    border-top: 1px solid #ddd;
+    color: #666;
+    font-size: 0.9rem;
+}

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="icon" href="images/favicon-32.png" sizes="32x32">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Machine | My Website</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header id="site-header"></header>
+
+    <header>
+        <h1>Machine: Guess the Number Game</h1>
+    </header>
+
+    <main>
+        <h2>Game Rules</h2>
+        <p>I will pick a secret number between 1 and 20. Try to guess it!</p>
+
+        <div class="game-box">
+            <input type="number" id="guessInput" min="1" max="20" placeholder="Enter number">
+            <button id="guessBtn">Submit Guess</button>
+            <p id="message"></p>
+            <p>Attempts: <span id="tryCount">0</span></p>
+            <button id="resetBtn">Restart Game</button>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 My Website</p>
+    </footer>
+
+    <script src="nav.js"></script>
+    <script>
+        // 游戏变量
+        let secretNumber = Math.floor(Math.random() * 20) + 1;
+        let attempts = 0;
+
+        const input = document.getElementById('guessInput');
+        const guessBtn = document.getElementById('guessBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const msg = document.getElementById('message');
+        const tryText = document.getElementById('tryCount');
+
+        guessBtn.addEventListener('click', function(){
+            const userGuess = Number(input.value);
+            if(!userGuess || userGuess <1 || userGuess>20){
+                msg.textContent = "Please enter a number between 1 and 20!";
+                msg.style.color = "red";
+                return;
+            }
+            attempts++;
+            tryText.textContent = attempts;
+
+            if(userGuess > secretNumber){
+                msg.textContent = "Too high! Try smaller.";
+                msg.style.color = "#c2410c";
+            }else if(userGuess < secretNumber){
+                msg.textContent = "Too low! Try bigger.";
+                msg.style.color = "#c2410c";
+            }else{
+                msg.textContent = "🎉 Correct! You win!";
+                msg.style.color = "green";
+            }
+        });
+
+        resetBtn.addEventListener('click', function(){
+            secretNumber = Math.floor(Math.random() * 20) + 1;
+            attempts = 0;
+            tryText.textContent = 0;
+            msg.textContent = "";
+            input.value = "";
+        });
+    </script>
+</body>
+</html>
