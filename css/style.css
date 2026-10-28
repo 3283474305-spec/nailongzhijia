@@ -126,6 +126,20 @@ img {
     margin: 1rem 0;
 }
 
+/* 可点击播放声音的图片：给出明确的可点反馈 */
+img[data-sound] {
+    cursor: pointer;
+    transition: transform .15s ease, box-shadow .15s ease;
+}
+img[data-sound]:hover,
+img[data-sound]:focus-visible {
+    transform: scale(1.02);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, .18);
+}
+img[data-sound]:active {
+    transform: scale(.99);
+}
+
 /* quotes hero 随机名言横幅 */
 .hero {
     padding: 3rem 1rem;
