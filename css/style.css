@@ -1,3 +1,43 @@
+/* =========================================================
+   主题变量
+   ---------------------------------------------------------
+   :root                    -> 日间（默认）配色
+   html[data-theme="dark"]  -> 夜间配色
+   切换主题时只改 <html data-theme="..."> 这一个属性，
+   下面的变量会整体换一套值，全站颜色随之改变。
+   ========================================================= */
+:root {
+    --bg:            #faf7f2;   /* 页面底色 */
+    --surface:       #ffffff;   /* 卡片 / 导航 / 输入框底色 */
+    --text:          #222222;   /* 正文文字 */
+    --text-soft:     #555555;   /* 次要文字（引用出处） */
+    --text-muted:    #666666;   /* 更弱的文字（页脚） */
+    --border:        #dddddd;   /* 分隔线与边框 */
+    --accent:        #c2410c;   /* 主题橙色 */
+    --accent-strong: #9a3412;   /* 橙色悬停态 */
+    --active:        blue;      /* 当前页导航高亮 */
+    --danger:        #b91c1c;   /* 错误提示 */
+    --success:       #15803d;   /* 成功提示 */
+
+    color-scheme: light;        /* 让原生滚动条 / 表单控件跟着变亮 */
+}
+
+html[data-theme="dark"] {
+    --bg:            #14161a;   /* 不用纯黑，深灰更耐看、不易眼疲劳 */
+    --surface:       #1e2126;
+    --text:          #e6e6e6;   /* 不用纯白，降低对比刺激 */
+    --text-soft:     #b8bec6;
+    --text-muted:    #a0a6ad;
+    --border:        #33383f;
+    --accent:        #fb923c;   /* 橙色在深底上必须提亮，否则糊成一团 */
+    --accent-strong: #fdba74;
+    --active:        #60a5fa;
+    --danger:        #f87171;
+    --success:       #4ade80;
+
+    color-scheme: dark;         /* 暗色下原生滚动条自动变深 */
+}
+
 /* 全局基础样式 */
 * {
     box-sizing: border-box;
@@ -11,33 +51,61 @@ body {
     margin: 0 auto;
     padding: 1rem;
     line-height: 1.6;
-    color: #222;
-    background: #faf7f2;
+    color: var(--text);
+    background: var(--bg);
+    transition: background-color .3s ease, color .3s ease;
+}
+
+/* 切换主题时不出现生硬跳变的元素
+   （过渡只加在这些元素上，不用 * 通配，否则页面加载时会整体淡入）
+   前面都带 html[data-ready]：页面刚加载时先不启用过渡，
+   等 nav.js 把圆钮摆到正确位置后才启用，
+   否则夜间用户会看到圆钮从左侧「飞」到右侧 */
+html[data-ready] body,
+html[data-ready] nav ul,
+html[data-ready] nav a,
+html[data-ready] .hero,
+html[data-ready] .quote,
+html[data-ready] .quote footer,
+html[data-ready] .game-box,
+html[data-ready] .game-box button,
+html[data-ready] .game-box input,
+html[data-ready] footer {
+    transition: background-color .3s ease,
+                border-color .3s ease,
+                color .3s ease;
+}
+
+/* 圆钮的滑动动画同样在加载完成前关闭 */
+html:not([data-ready]) .theme-switch {
+    transition: none;
 }
 
 /* 导航样式 - 横向排列 */
 nav ul {
     display: flex;
+    flex-wrap: wrap;            /* 窄屏幕时换行，避免按钮把导航挤乱 */
+    align-items: center;
     gap: 1.5rem;
     list-style: none;
     padding: 1rem 0;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid var(--border);
     margin-bottom: 2rem;
 }
 
 nav a {
     text-decoration: none;
-    color: #333;
+    color: var(--text);
     font-weight: 500;
 }
 
 nav a:hover {
-    color: #c2410c;
+    color: var(--accent);
 }
 
 /* active导航蓝色高亮 */
 nav a.active {
-    color: blue;
+    color: var(--active);
     font-weight: bold;
 }
 
@@ -62,8 +130,8 @@ img {
 .hero {
     padding: 3rem 1rem;
     text-align: center;
-    border-left: 3px solid #c2410c;
-    background: #fff;
+    border-left: 3px solid var(--accent);
+    background: var(--surface);
     margin-bottom: 2rem;
     border-radius: 0 8px 8px 0;
 }
@@ -74,21 +142,21 @@ img {
 .hero cite {
     display: block;
     margin-top: 1rem;
-    color: #555;
+    color: var(--text-soft);
 }
 
 /* quote卡片样式 */
 .quote {
     max-width: 34rem;
     padding: 1.5rem;
-    border-left: 3px solid #c2410c;
-    background: #fff;
+    border-left: 3px solid var(--accent);
+    background: var(--surface);
     border-radius: 0 8px 8px 0;
     margin-bottom: 1.5rem;
 }
 .quote footer {
     margin-top: 1rem;
-    color: #666;
+    color: var(--text-muted);
     font-size: 0.9rem;
 }
 
@@ -96,32 +164,114 @@ img {
 .game-box {
     margin: 2rem 0;
     padding: 1.5rem;
-    border:1px solid #ddd;
+    border: 1px solid var(--border);
     border-radius: 8px;
-    background: #fff;
+    background: var(--surface);
 }
 .game-box input {
-    padding:0.4rem;
-    width:150px;
-    margin-right:0.5rem;
+    padding: 0.4rem;
+    width: 150px;
+    margin-right: 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--surface);
+    color: var(--text);
 }
 .game-box button {
-    padding:0.4rem 0.8rem;
-    cursor:pointer;
-    background: #c2410c;
-    color: white;
+    padding: 0.4rem 0.8rem;
+    cursor: pointer;
+    background: var(--accent);
+    color: #ffffff;             /* 按钮文字始终纯白：两种主题下都是橙底 */
     border: none;
     border-radius: 4px;
 }
 .game-box button:hover {
-    background: #9a3412;
+    background: var(--accent-strong);
 }
 
 /* 页脚 */
 footer {
     margin-top: 3rem;
     padding-top: 1rem;
-    border-top: 1px solid #ddd;
-    color: #666;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
     font-size: 0.9rem;
+}
+
+/* =========================================================
+   夜间模式开关
+   ========================================================= */
+.theme-toggle-item {
+    margin-left: auto;          /* 推到导航条最右侧 */
+    display: flex;
+    align-items: center;
+}
+
+/* 轨道：固定尺寸，宽度 = 圆钮(1.4rem) + 两侧留白(0.25rem) */
+#theme-toggle {
+    position: relative;
+    width: 3.6rem;
+    height: 1.9rem;
+    padding: 0;
+    border: none;
+    border-radius: 999px;
+    background: var(--border);      /* 日间：灰色轨道 */
+    cursor: pointer;
+    overflow: hidden;
+}
+
+/* 圆钮：靠 translateX 滑动。
+   位移和图标都来自 nav.js 写在按钮上的两个内联变量，
+   这样不必依赖 :has() 选择器，兼容性更好 */
+.theme-switch {
+    position: absolute;
+    top: 0.25rem;
+    left: 0.25rem;
+    width: 1.4rem;
+    height: 1.4rem;
+    border-radius: 50%;
+    background: var(--surface);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+    transform: translateX(var(--knob-x, 0));
+    transition: transform .3s cubic-bezier(.4, 0, .2, 1),
+                background-color .3s ease;
+}
+
+/* 圆钮里的图标，同样由变量驱动 */
+.theme-switch::after {
+    content: var(--knob-icon, "🌙");
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font-size: 0.8rem;
+    line-height: 1;
+}
+
+/* 夜间：轨道点亮为主题蓝，圆钮滑到右侧并变成 ☀️ */
+html[data-theme="dark"] #theme-toggle { background: var(--active); }
+html[data-theme="dark"] .theme-switch { background: var(--text); }
+
+/* 悬停与键盘焦点反馈 */
+#theme-toggle:hover        { box-shadow: 0 0 0 2px var(--border); }
+html[data-theme="dark"] #theme-toggle:hover { box-shadow: 0 0 0 2px var(--surface); }
+#theme-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* 键盘用户可见的焦点圈（鼠标点击不显示） */
+:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* 夜间下压一点图片亮度，避免奶龙表情包的白边过于刺眼 */
+html[data-theme="dark"] img {
+    filter: brightness(.88);
+}
+
+/* 尊重系统「减少动态效果」设置 */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+        animation: none !important;
+    }
 }
